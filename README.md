@@ -3,22 +3,23 @@
 Standalone Next.js 15 app for **Dave Cleaning Services** — extracted from the
 `daveelectricals` monorepo so it can be developed and deployed on its own.
 
-## Unlisted demo path
+## URLs
 
-The whole app is served under the base path **`/demo/dave-cleaning-services`**
-(`basePath` in `next.config.mjs`, mirrored in `lib/basePath.ts`). This is
-intentional: the site is **unlisted** — the domain root (`/`) returns 404, so it
-is reachable only if you already have the URL, and there is no link to it from
-the electrical site.
+The app is served at the domain root.
 
-- Local: `http://localhost:3001/demo/dave-cleaning-services`
-- Production: `https://<your-domain>/demo/dave-cleaning-services`
+- Local: `http://localhost:3001`
+- Production: `https://<your-domain>`
+
+It is still effectively unlisted: it lives on its own domain with no link to it
+from the electrical site. To serve it under a sub-path instead (e.g.
+`/demo/dave-cleaning-services`), set `BASE_PATH` in `lib/basePath.ts` and add a
+matching `basePath` in `next.config.mjs`.
 
 ## Develop
 
 ```bash
 npm install
-npm run dev          # http://localhost:3001/demo/dave-cleaning-services
+npm run dev          # http://localhost:3001
 ```
 
 Optional local MongoDB for the admin/booking features (no Docker needed):
