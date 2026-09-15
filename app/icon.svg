@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Dave Cleaning Services">
+  <defs>
+    <pattern id="haz" width="36" height="36" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <rect width="36" height="36" fill="#14a1e6"/>
+      <rect width="18" height="36" fill="#ffffff"/>
+    </pattern>
+  </defs>
+  <rect width="512" height="512" rx="104" fill="#14a1e6"/>
+  <rect x="18" y="18" width="476" height="476" rx="88" fill="none" stroke="#ffffff" stroke-width="16"/>
+  <rect x="70" y="150" width="372" height="46" fill="url(#haz)"/>
+  <text x="256" y="330" text-anchor="middle" font-family="'Arial Black','Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="140" letter-spacing="2" fill="#ffffff">DAVE</text>
+  <rect x="104" y="372" width="304" height="10" fill="#ffffff"/>
+  <text x="256" y="450" text-anchor="middle" font-family="'Arial Black','Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="54" letter-spacing="4" fill="#ffffff">CLEANING</text>
+</svg>
