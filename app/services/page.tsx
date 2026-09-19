@@ -40,9 +40,9 @@ export default function ServicesPage() {
           ))}
         </div>
         <p className="mt-8 text-center text-sm text-slate-500">
-          All prices are starting guide prices shown ex VAT and may vary with the
-          size, condition and specific requirements of your property. VAT is added
-          at checkout. 6+ bedroom properties are priced on a quick quote.
+          All prices are starting guide prices and may vary with the size,
+          condition and specific requirements of your property. 6+ bedroom
+          properties are priced on a quick quote.
         </p>
       </section>
 

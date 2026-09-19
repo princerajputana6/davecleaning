@@ -7,6 +7,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollProgress from "@/components/ScrollProgress";
 import PublicChrome from "@/components/PublicChrome";
 import WaveBackground from "@/components/WaveBackground";
+import BubbleBackground from "@/components/BubbleBackground";
 import { CartProvider } from "@/components/CartProvider";
 import { company } from "@/lib/content";
 import { getSession, isAdminSession } from "@/lib/auth";
@@ -76,6 +77,7 @@ export default async function RootLayout({
         <WaveBackground />
         <CartProvider>
           <PublicChrome>
+            <BubbleBackground />
             <ScrollProgress />
             <Navbar user={user} />
           </PublicChrome>

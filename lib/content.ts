@@ -4,10 +4,8 @@ export const company = {
   name: "Dave Cleaning Services",
   legalName: "Dave Cleaning Services",
   phonePrimary: "02035244041",
-  // NOTE: placeholder — per brief, use a dedicated cleaning email only once the
-  // new address/domain is confirmed. Do NOT reuse the electrical email.
-  email: "hello@davecleaning.co.uk",
-  address: "7 Nursery Gardens, Hounslow, London TW4 5EY",
+  email: "info@davecleaning.co.uk",
+  address: "22 Camborne Way, Hounslow, London, TW5 0PW",
   // Re-used display keys (kept so the shared components render):
   napit: "Fully Insured & Vetted",
   certificate: "Satisfaction Guaranteed",

@@ -46,6 +46,25 @@
   50% { opacity: 1; transform: scale(1.06); }
 }
 
+/* Rising cleaning bubbles (decorative side background) */
+@keyframes bubble-rise {
+  0%   { transform: translateY(0) translateX(0) scale(0.9); opacity: 0; }
+  10%  { opacity: var(--bubble-opacity, 0.5); }
+  50%  { transform: translateY(-52vh) translateX(14px) scale(1); }
+  90%  { opacity: var(--bubble-opacity, 0.5); }
+  100% { transform: translateY(-104vh) translateX(-6px) scale(1.05); opacity: 0; }
+}
+.bubble {
+  position: absolute;
+  bottom: -80px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.9), rgba(92, 192, 245, 0.28) 55%, rgba(20, 161, 230, 0.14) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.35);
+  animation: bubble-rise linear infinite;
+  will-change: transform, opacity;
+}
+
 * {
   box-sizing: border-box;
 }

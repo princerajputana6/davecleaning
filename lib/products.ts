@@ -75,6 +75,38 @@ export const PROPERTY_SIZES = [
 /** Shown as the final, quote-only row of every size selector. */
 export const PROPERTY_SIZE_QUOTE = { id: "6plus", label: "6+ Bedrooms" };
 
+/* ─────────────────────────── Estimated hours matrix ──────────────────────────
+ * Guide duration by property size × service type. Shown beside each property
+ * size in the booking selector so customers know roughly how long the clean
+ * takes. Order matches PROPERTY_SIZES then the 6+ (quote) row.
+ *
+ *   Size          Regular   One-Off   Deep      Tenancy   Builders
+ *   Studio        1.5–2     2–2.5     3–4       3–4       4–5
+ *   1 Bedroom     2–2.5     2.5–3.5   4–5       4–5       5–6
+ *   2 Bedrooms    2.5–3.5   3.5–4.5   5–6.5     5–6.5     6–7.5
+ *   3 Bedrooms    3.5–4.5   4.5–5.5   6.5–8     6.5–8     7.5–9
+ *   4 Bedrooms    4.5–5.5   5.5–7     8–10      8–10      9–11
+ *   5 Bedrooms    5.5–6.5   7–8       10–12     10–12     11–13
+ *   6+ Bedrooms   6.5–7.5   8–9       12–14     12–14     13–15
+ * ──────────────────────────────────────────────────────────────────────────── */
+const SIZE_ORDER = ["studio", "1bed", "2bed", "3bed", "4bed", "5bed", "6plus"] as const;
+
+const HOURS: Record<string, string[]> = {
+  "regular-cleaning": ["1.5–2", "2–2.5", "2.5–3.5", "3.5–4.5", "4.5–5.5", "5.5–6.5", "6.5–7.5"],
+  "one-off-cleaning": ["2–2.5", "2.5–3.5", "3.5–4.5", "4.5–5.5", "5.5–7", "7–8", "8–9"],
+  "deep-cleaning": ["3–4", "4–5", "5–6.5", "6.5–8", "8–10", "10–12", "12–14"],
+  "end-of-tenancy": ["3–4", "4–5", "5–6.5", "6.5–8", "8–10", "10–12", "12–14"],
+  "after-builders": ["4–5", "5–6", "6–7.5", "7.5–9", "9–11", "11–13", "13–15"],
+};
+
+/** Estimated duration (e.g. "3–4 hrs") for a service + property-size combo. */
+export function serviceHours(slug: string, sizeId: string): string | undefined {
+  const row = HOURS[slug];
+  const i = SIZE_ORDER.indexOf(sizeId as (typeof SIZE_ORDER)[number]);
+  if (!row || i < 0 || !row[i]) return undefined;
+  return `${row[i]} hrs`;
+}
+
 function sizeVariants(prices: [number, number, number, number, number, number]): ProductVariant[] {
   return PROPERTY_SIZES.map((s, i) => ({
     id: s.id,

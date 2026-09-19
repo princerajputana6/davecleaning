@@ -8,13 +8,21 @@ import { ArrowIcon, PhoneIcon, SparkleIcon, StarIcon } from "./Icons";
 
 const headline = ["A spotless space,", "booked in minutes."];
 
-/** Decorative floating bubbles (cleaning motif). */
+/** Decorative floating bubbles (cleaning motif) — clustered down both sides. */
 const bubbles = [
-  { left: "8%", top: "22%", size: 90, delay: 0 },
-  { left: "82%", top: "18%", size: 130, delay: 0.6 },
-  { left: "68%", top: "62%", size: 70, delay: 1.1 },
-  { left: "16%", top: "68%", size: 110, delay: 0.3 },
-  { left: "46%", top: "12%", size: 54, delay: 0.9 },
+  // Left side
+  { left: "4%", top: "20%", size: 96, delay: 0 },
+  { left: "10%", top: "52%", size: 60, delay: 0.7 },
+  { left: "3%", top: "74%", size: 120, delay: 0.3 },
+  { left: "14%", top: "36%", size: 40, delay: 1.3 },
+  // Right side
+  { left: "88%", top: "16%", size: 132, delay: 0.6 },
+  { left: "82%", top: "48%", size: 54, delay: 1.1 },
+  { left: "90%", top: "70%", size: 84, delay: 0.4 },
+  { left: "80%", top: "82%", size: 44, delay: 1.6 },
+  // A couple drifting through the centre for depth
+  { left: "46%", top: "12%", size: 46, delay: 0.9 },
+  { left: "60%", top: "60%", size: 34, delay: 1.4 },
 ];
 
 export default function Hero() {
@@ -50,7 +58,7 @@ export default function Hero() {
         <motion.span
           key={i}
           aria-hidden
-          className="absolute rounded-full border border-white/10 bg-gradient-to-br from-white/10 to-white/0 backdrop-blur-[1px]"
+          className="absolute rounded-full border border-white/20 bg-gradient-to-br from-white/20 via-bolt/10 to-white/0 backdrop-blur-[1px]"
           style={{ left: b.left, top: b.top, width: b.size, height: b.size }}
           animate={{ y: [0, -18, 0], opacity: [0.5, 0.9, 0.5] }}
           transition={{
@@ -118,7 +126,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.7 }}
           className="mt-6 inline-flex items-center gap-2 rounded-full border border-bolt/40 bg-bolt/15 px-4 py-1.5 text-sm font-semibold text-white backdrop-blur-sm"
         >
-          <span className="text-bolt">From £40 + VAT</span>
+          <span className="text-bolt">From £40</span>
           <span className="text-white/50">·</span>
           <span className="text-white/80">instant online booking</span>
         </motion.div>

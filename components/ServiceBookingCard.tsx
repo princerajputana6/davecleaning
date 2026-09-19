@@ -10,6 +10,7 @@ import {
   findProduct,
   formatGBP,
   priceFrom,
+  serviceHours,
   PROPERTY_SIZES,
   PROPERTY_SIZE_QUOTE,
 } from "@/lib/products";
@@ -47,6 +48,7 @@ export default function ServiceBookingCard({
   const isQuote = sizeId === PROPERTY_SIZE_QUOTE.id;
   const selectedPrice =
     product?.variants?.find((v) => v.id === sizeId)?.price ?? null;
+  const selectedHours = serviceHours(service.slug, sizeId);
 
   const handleAdd = (thenCheckout: boolean) => {
     if (!product || isQuote || selectedPrice == null) return;
@@ -79,9 +81,6 @@ export default function ServiceBookingCard({
             <>
               <p className="font-display text-2xl font-bold text-slate-900">
                 From {formatGBP(from)}
-              </p>
-              <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
-                + VAT
               </p>
             </>
           ) : (
@@ -130,31 +129,43 @@ export default function ServiceBookingCard({
                   className="overflow-hidden"
                 >
                   <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
-                    Property size
+                    Property size &amp; estimated hours
                   </label>
                   <select
                     value={sizeId}
                     onChange={(e) => setSizeId(e.target.value)}
                     className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 outline-none focus:border-bolt focus:ring-2 focus:ring-bolt/20"
                   >
-                    {PROPERTY_SIZES.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.label}
-                      </option>
-                    ))}
+                    {PROPERTY_SIZES.map((s) => {
+                      const hrs = serviceHours(service.slug, s.id);
+                      return (
+                        <option key={s.id} value={s.id}>
+                          {s.label}
+                          {hrs ? ` · ${hrs}` : ""}
+                        </option>
+                      );
+                    })}
                     <option value={PROPERTY_SIZE_QUOTE.id}>
                       {PROPERTY_SIZE_QUOTE.label}
+                      {serviceHours(service.slug, PROPERTY_SIZE_QUOTE.id)
+                        ? ` · ${serviceHours(service.slug, PROPERTY_SIZE_QUOTE.id)}`
+                        : ""}
                     </option>
                   </select>
 
                   <div className="mt-4 flex items-end justify-between rounded-xl bg-slate-50 px-4 py-3">
                     <span className="text-sm font-medium text-slate-500">
                       {isQuote ? "Larger property" : "Your price"}
+                      {selectedHours ? (
+                        <span className="mt-0.5 block text-xs font-normal text-slate-400">
+                          Est. {selectedHours}
+                        </span>
+                      ) : null}
                     </span>
                     <span className="font-display text-2xl font-bold text-slate-900">
                       {isQuote || selectedPrice == null
                         ? "Get a quote"
-                        : `${formatGBP(selectedPrice)} + VAT`}
+                        : formatGBP(selectedPrice)}
                     </span>
                   </div>
 
