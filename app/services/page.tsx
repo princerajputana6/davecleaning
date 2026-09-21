@@ -40,9 +40,9 @@ export default function ServicesPage() {
           ))}
         </div>
         <p className="mt-8 text-center text-sm text-slate-500">
-          All prices are starting guide prices and may vary with the size,
-          condition and specific requirements of your property. 6+ bedroom
-          properties are priced on a quick quote.
+          Every clean is tailored to the size, condition and specific
+          requirements of your property. Get in touch and our team will arrange
+          a quote to suit your needs.
         </p>
       </section>
 
@@ -80,7 +80,7 @@ export default function ServicesPage() {
       </section>
 
       <QuoteCTA />
-      <CTABanner punchline="Instant guide prices for every property size and every service. No hidden costs, no surprise charges — see your price and book in minutes." />
+      <CTABanner punchline="Reliable cleaning for every property size and every service across London. Get in touch and our team will take care of the rest." />
     </>
   );
 }

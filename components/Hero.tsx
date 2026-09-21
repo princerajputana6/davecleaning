@@ -115,8 +115,7 @@ export default function Hero() {
           className="mt-7 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg"
         >
           Professional domestic and commercial cleaning across London. Browse our
-          services and guide prices, then get in touch — our team will take care
-          of the rest.
+          services, then get in touch — our team will take care of the rest.
         </motion.p>
 
         {/* Instant-price chip */}
@@ -126,7 +125,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.7 }}
           className="mt-6 inline-flex items-center gap-2 rounded-full border border-bolt/40 bg-bolt/15 px-4 py-1.5 text-sm font-semibold text-white backdrop-blur-sm"
         >
-          <span className="text-bolt">From £40</span>
+          <span className="text-bolt">Fully insured &amp; vetted</span>
           <span className="text-white/50">·</span>
           <span className="text-white/80">free, no-obligation quotes</span>
         </motion.div>

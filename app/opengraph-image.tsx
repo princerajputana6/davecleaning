@@ -70,7 +70,7 @@ export default function OpengraphImage() {
                 padding: "12px 28px",
               }}
             >
-              From £40 · Trusted local cleaners
+              Trusted local cleaners · Fully insured
             </div>
           </div>
         </div>

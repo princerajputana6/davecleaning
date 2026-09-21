@@ -6,8 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { serviceIcons, CheckIcon, ArrowIcon } from "./Icons";
 import {
   findProduct,
-  formatGBP,
-  priceFrom,
   serviceHours,
   PROPERTY_SIZES,
   PROPERTY_SIZE_QUOTE,
@@ -34,7 +32,6 @@ export default function ServiceBookingCard({
   const Icon = serviceIcons[service.icon];
 
   const product = findProduct(service.slug);
-  const from = priceFrom(service.slug);
 
   const [open, setOpen] = useState(false);
 
@@ -62,13 +59,9 @@ export default function ServiceBookingCard({
           {Icon && <Icon className="h-7 w-7" />}
         </span>
         <div className="text-right">
-          {from != null ? (
-            <p className="font-display text-2xl font-bold text-slate-900">
-              From {formatGBP(from)}
-            </p>
-          ) : (
-            <p className="font-display text-lg font-bold text-bolt">Ask us</p>
-          )}
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+            Quote on request
+          </p>
         </div>
       </div>
 
