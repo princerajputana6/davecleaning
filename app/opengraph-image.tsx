@@ -70,7 +70,7 @@ export default function OpengraphImage() {
                 padding: "12px 28px",
               }}
             >
-              From £40 · Book online
+              From £40 · Trusted local cleaners
             </div>
           </div>
         </div>

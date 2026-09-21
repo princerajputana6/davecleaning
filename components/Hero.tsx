@@ -114,9 +114,9 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.6 }}
           className="mt-7 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg"
         >
-          Professional domestic and commercial cleaning across London. Choose your
-          service and property size, see your price instantly, and book online — no
-          waiting on a call-back.
+          Professional domestic and commercial cleaning across London. Browse our
+          services and guide prices, then get in touch — our team will take care
+          of the rest.
         </motion.p>
 
         {/* Instant-price chip */}
@@ -128,7 +128,7 @@ export default function Hero() {
         >
           <span className="text-bolt">From £40</span>
           <span className="text-white/50">·</span>
-          <span className="text-white/80">instant online booking</span>
+          <span className="text-white/80">free, no-obligation quotes</span>
         </motion.div>
 
         <motion.div
@@ -141,7 +141,7 @@ export default function Hero() {
             href="/services"
             className="group flex items-center gap-2 rounded-full bg-bolt px-7 py-3.5 font-bold text-white shadow-lg shadow-bolt/25 transition-transform hover:scale-[1.04]"
           >
-            See prices &amp; book
+            View our services
             <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Link>
           <a

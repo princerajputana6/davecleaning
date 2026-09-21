@@ -7,7 +7,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { nav, company } from "@/lib/content";
 import { CloseIcon, MenuIcon, PhoneIcon } from "./Icons";
 import Logo from "./Logo";
-import CartBadge from "./CartBadge";
 import HazardStripe from "./HazardStripe";
 
 type User = { name: string; email: string; isAdmin?: boolean } | null;
@@ -133,7 +132,6 @@ export default function Navbar({ user }: { user: User }) {
               <PhoneIcon className="h-4 w-4" />
               <span>{company.phonePrimary}</span>
             </a>
-            <CartBadge />
             <button
               aria-label="Toggle menu"
               onClick={() => setOpen((v) => !v)}

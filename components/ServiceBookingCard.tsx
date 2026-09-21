@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { serviceIcons, CheckIcon, ArrowIcon, BagIcon } from "./Icons";
-import { useCart } from "./CartProvider";
+import { serviceIcons, CheckIcon, ArrowIcon } from "./Icons";
 import {
   findProduct,
   formatGBP,
@@ -34,32 +32,19 @@ export default function ServiceBookingCard({
   expanded?: boolean;
 }) {
   const Icon = serviceIcons[service.icon];
-  const router = useRouter();
-  const { add } = useCart();
 
   const product = findProduct(service.slug);
-  const bookable = !!product?.variants?.length;
   const from = priceFrom(service.slug);
 
   const [open, setOpen] = useState(false);
-  const [sizeId, setSizeId] = useState<string>(PROPERTY_SIZES[0].id);
-  const [added, setAdded] = useState(false);
 
-  const isQuote = sizeId === PROPERTY_SIZE_QUOTE.id;
-  const selectedPrice =
-    product?.variants?.find((v) => v.id === sizeId)?.price ?? null;
-  const selectedHours = serviceHours(service.slug, sizeId);
-
-  const handleAdd = (thenCheckout: boolean) => {
-    if (!product || isQuote || selectedPrice == null) return;
-    add(product.id, sizeId, 1);
-    if (thenCheckout) {
-      router.push("/checkout");
-      return;
-    }
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1800);
-  };
+  // Estimated-hours guide by property size (only for the cleaning services
+  // that have an hours matrix). Purely informational — booking is not yet live.
+  const hoursGuide = product?.variants?.length
+    ? [...PROPERTY_SIZES, PROPERTY_SIZE_QUOTE]
+        .map((s) => ({ label: s.label, hrs: serviceHours(service.slug, s.id) }))
+        .filter((r) => r.hrs)
+    : [];
 
   return (
     <motion.article
@@ -78,13 +63,11 @@ export default function ServiceBookingCard({
         </span>
         <div className="text-right">
           {from != null ? (
-            <>
-              <p className="font-display text-2xl font-bold text-slate-900">
-                From {formatGBP(from)}
-              </p>
-            </>
+            <p className="font-display text-2xl font-bold text-slate-900">
+              From {formatGBP(from)}
+            </p>
           ) : (
-            <p className="font-display text-lg font-bold text-bolt">Get a quote</p>
+            <p className="font-display text-lg font-bold text-bolt">Ask us</p>
           )}
         </div>
       </div>
@@ -105,118 +88,73 @@ export default function ServiceBookingCard({
         ))}
       </ul>
 
-      {/* Actions */}
+      {/* Actions — online booking is not live yet, so a click reveals a
+          "to be confirmed" notice instead of a checkout flow. */}
       <div className="relative mt-6 pt-5">
-        {bookable ? (
-          <>
-            {!open && (
-              <button
-                type="button"
-                onClick={() => setOpen(true)}
-                className="group/btn inline-flex w-full items-center justify-center gap-2 rounded-full bg-bolt px-6 py-3 text-sm font-bold text-white transition-transform hover:scale-[1.03]"
-              >
-                Book this service
-                <ArrowIcon className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-              </button>
-            )}
-
-            <AnimatePresence initial={false}>
-              {open && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="overflow-hidden"
-                >
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
-                    Property size &amp; estimated hours
-                  </label>
-                  <select
-                    value={sizeId}
-                    onChange={(e) => setSizeId(e.target.value)}
-                    className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 outline-none focus:border-bolt focus:ring-2 focus:ring-bolt/20"
-                  >
-                    {PROPERTY_SIZES.map((s) => {
-                      const hrs = serviceHours(service.slug, s.id);
-                      return (
-                        <option key={s.id} value={s.id}>
-                          {s.label}
-                          {hrs ? ` · ${hrs}` : ""}
-                        </option>
-                      );
-                    })}
-                    <option value={PROPERTY_SIZE_QUOTE.id}>
-                      {PROPERTY_SIZE_QUOTE.label}
-                      {serviceHours(service.slug, PROPERTY_SIZE_QUOTE.id)
-                        ? ` · ${serviceHours(service.slug, PROPERTY_SIZE_QUOTE.id)}`
-                        : ""}
-                    </option>
-                  </select>
-
-                  <div className="mt-4 flex items-end justify-between rounded-xl bg-slate-50 px-4 py-3">
-                    <span className="text-sm font-medium text-slate-500">
-                      {isQuote ? "Larger property" : "Your price"}
-                      {selectedHours ? (
-                        <span className="mt-0.5 block text-xs font-normal text-slate-400">
-                          Est. {selectedHours}
-                        </span>
-                      ) : null}
-                    </span>
-                    <span className="font-display text-2xl font-bold text-slate-900">
-                      {isQuote || selectedPrice == null
-                        ? "Get a quote"
-                        : formatGBP(selectedPrice)}
-                    </span>
-                  </div>
-
-                  {isQuote ? (
-                    <Link
-                      href="/contact"
-                      className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-bolt px-6 py-3 text-sm font-bold text-white transition-transform hover:scale-[1.03] no-underline"
-                    >
-                      Request a quote
-                      <ArrowIcon className="h-4 w-4" />
-                    </Link>
-                  ) : (
-                    <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-                      <button
-                        type="button"
-                        onClick={() => handleAdd(true)}
-                        className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-bolt px-5 py-3 text-sm font-bold text-white transition-transform hover:scale-[1.03]"
-                      >
-                        Book now
-                        <ArrowIcon className="h-4 w-4" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleAdd(false)}
-                        className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-900 transition-colors hover:border-bolt/40 hover:text-bolt"
-                      >
-                        {added ? (
-                          <>
-                            <CheckIcon className="h-4 w-4 text-bolt" /> Added
-                          </>
-                        ) : (
-                          <>
-                            <BagIcon className="h-4 w-4" /> Add to basket
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </>
-        ) : (
-          <Link
-            href="/contact"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-bolt/30 bg-bolt/5 px-6 py-3 text-sm font-bold text-bolt transition-colors hover:bg-bolt/10 no-underline"
+        {!open && (
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="group/btn inline-flex w-full items-center justify-center gap-2 rounded-full bg-bolt px-6 py-3 text-sm font-bold text-white transition-transform hover:scale-[1.03]"
           >
-            Get a quote
-            <ArrowIcon className="h-4 w-4" />
-          </Link>
+            View this service
+            <ArrowIcon className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+          </button>
         )}
+
+        <AnimatePresence initial={false}>
+          {open && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="overflow-hidden"
+            >
+              <div className="rounded-xl border border-bolt/20 bg-bolt/5 p-4">
+                <span className="inline-flex items-center rounded-full bg-bolt px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
+                  TBC
+                </span>
+                <p className="mt-3 text-sm font-semibold text-slate-900">
+                  The full booking form is to be confirmed.
+                </p>
+                <p className="mt-1 text-sm leading-relaxed text-slate-500">
+                  Online booking for this service is coming soon. In the
+                  meantime, get in touch and our team will arrange everything
+                  for you.
+                </p>
+
+                {hoursGuide.length > 0 && (
+                  <div className="mt-4 border-t border-bolt/15 pt-3">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      Estimated cleaning time
+                    </p>
+                    <ul className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1">
+                      {hoursGuide.map((r) => (
+                        <li
+                          key={r.label}
+                          className="flex justify-between gap-2 text-xs text-slate-600"
+                        >
+                          <span>{r.label}</span>
+                          <span className="font-medium text-slate-500">
+                            {r.hrs}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <Link
+                  href="/contact"
+                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-bolt px-6 py-3 text-sm font-bold text-white transition-transform hover:scale-[1.03] no-underline"
+                >
+                  Get in touch
+                  <ArrowIcon className="h-4 w-4" />
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.article>
   );

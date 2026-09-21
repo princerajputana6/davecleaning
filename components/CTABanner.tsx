@@ -64,7 +64,7 @@ export default function CTABanner({
               href="/services"
               className="group flex items-center justify-center gap-2 rounded-full bg-bolt px-7 py-3.5 font-bold text-white shadow-lg shadow-bolt/25 transition-transform hover:scale-[1.04]"
             >
-              See prices &amp; book
+              View our services
               <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
             <a
