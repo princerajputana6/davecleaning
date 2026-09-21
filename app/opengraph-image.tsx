@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { OG_LOGO } from "@/lib/ogLogo";
 
 // Social share card (link previews on iMessage, WhatsApp, Slack, X, etc.)
 export const runtime = "edge";
@@ -15,43 +16,24 @@ export default function OpengraphImage() {
           width: "100%",
           display: "flex",
           alignItems: "center",
-          gap: "64px",
-          padding: "80px",
+          gap: "56px",
+          padding: "72px",
           background: "linear-gradient(135deg, #0c2138 0%, #0e2740 55%, #0a1a2c 100%)",
           color: "#ffffff",
           fontFamily: "sans-serif",
         }}
       >
-        {/* Brand badge */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "300px",
-            height: "300px",
-            flexShrink: 0,
-            borderRadius: "60px",
-            background: "#14a1e6",
-            border: "10px solid #ffffff",
-          }}
-        >
-          <div style={{ fontSize: "96px", fontWeight: 900, letterSpacing: "2px", lineHeight: 1 }}>
-            DAVE
-          </div>
-          <div style={{ width: "180px", height: "6px", background: "#ffffff", margin: "16px 0" }} />
-          <div style={{ fontSize: "40px", fontWeight: 900, letterSpacing: "3px", lineHeight: 1 }}>
-            CLEANING
-          </div>
-        </div>
+        {/* Official Dave Cleaning Services logo */}
+        <img
+          src={OG_LOGO}
+          width={470}
+          height={245}
+          style={{ flexShrink: 0, borderRadius: "20px" }}
+        />
 
         {/* Copy */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: "34px", fontWeight: 700, color: "#5cc0f5", letterSpacing: "2px" }}>
-            DAVE CLEANING SERVICES
-          </div>
-          <div style={{ fontSize: "62px", fontWeight: 800, lineHeight: 1.05, marginTop: "16px" }}>
+          <div style={{ fontSize: "62px", fontWeight: 800, lineHeight: 1.05 }}>
             Professional cleaning for homes &amp; businesses
           </div>
           <div style={{ fontSize: "30px", color: "#cbd5e1", lineHeight: 1.4, marginTop: "24px" }}>
