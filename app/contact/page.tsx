@@ -107,7 +107,7 @@ export default function ContactPage() {
 
             <Reveal delay={0.3}>
               <a
-                href={`https://wa.me/${company.whatsapp}`}
+                href={`https://wa.me/${company.whatsapp}?text=${encodeURIComponent(company.whatsappMessage)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-4 flex items-center gap-3 rounded-2xl border border-[#25D366]/30 bg-[#25D366]/10 p-5 transition-colors hover:bg-[#25D366]/15"

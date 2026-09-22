@@ -10,6 +10,10 @@ export const company = {
   napit: "Fully Insured & Vetted",
   certificate: "Satisfaction Guaranteed",
   whatsapp: "442035244041",
+  // Pre-filled message that opens in WhatsApp when a customer taps the chat
+  // button (wa.me ?text=). Phrased from the customer's side.
+  whatsappMessage:
+    "Hi Dave Cleaning Services, I'd like to know more about your cleaning services. Can you help?",
   yearsExperience: 10,
   /** Link across to the sister electrical company. */
   sisterSite: {

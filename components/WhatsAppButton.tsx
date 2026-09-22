@@ -7,7 +7,7 @@ import { WhatsAppIcon } from "./Icons";
 export default function WhatsAppButton() {
   return (
     <motion.a
-      href={`https://wa.me/${company.whatsapp}`}
+      href={`https://wa.me/${company.whatsapp}?text=${encodeURIComponent(company.whatsappMessage)}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
