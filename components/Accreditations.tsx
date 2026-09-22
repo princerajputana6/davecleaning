@@ -1,36 +1,30 @@
-"use client";
-
+/* eslint-disable @next/next/no-img-element */
 import { accreditations } from "@/lib/content";
 
 /**
- * Horizontal, auto-scrolling strip of individual accreditation logos.
- * No card chrome — each badge is shown as its own logo on a clean tile so
- * City & Guilds, FIA, NAPIT, etc. read as the distinct entities they are.
+ * Certifications & accreditations — the cleaning-industry bodies Dave Cleaning
+ * Services is trained/certified with (BICSc, CPD, Alison). Each is a wordmark
+ * logo, so it's shown contained (never cropped) on a clean white tile.
  *
- * Logos are loaded from /public/accreditations/ (see lib/content.ts).
+ * Logos live in /public/accreditations/ (see lib/content.ts).
  */
 export default function Accreditations() {
-  // Duplicate the list so the marquee loops seamlessly.
-  const loop = [...accreditations, ...accreditations];
-
   return (
-    <div className="group relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
-      <div className="flex w-max animate-marquee items-center gap-5 py-4 group-hover:[animation-play-state:paused]">
-        {loop.map((a, i) => (
-          <div
-            key={`${a.name}-${i}`}
-            className="h-40 w-40 shrink-0 overflow-hidden rounded-2xl border-[10px] border-bolt bg-white shadow-sm transition-shadow hover:shadow-md sm:h-44 sm:w-44"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={a.src}
-              alt={a.name}
-              loading="lazy"
-              className="h-full w-full object-cover"
-            />
-          </div>
-        ))}
-      </div>
+    <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-5 sm:gap-8">
+      {accreditations.map((a) => (
+        <div
+          key={a.name}
+          title={a.name}
+          className="flex h-28 w-56 items-center justify-center rounded-2xl border border-slate-200 bg-white px-7 py-5 shadow-sm transition-shadow hover:shadow-md"
+        >
+          <img
+            src={a.src}
+            alt={a.name}
+            loading="lazy"
+            className="max-h-full max-w-full object-contain"
+          />
+        </div>
+      ))}
     </div>
   );
 }

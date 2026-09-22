@@ -375,9 +375,11 @@ export type Accreditation = {
   src: string;
 };
 
-/** Kept for the shared component; not shown on the cleaning site by default. */
+/** Cleaning-industry certifications & accreditations shown on the site. */
 export const accreditations: Accreditation[] = [
-  { name: "Fully Insured", src: withBase("/logo.jpeg") },
+  { name: "The British Institute of Cleaning Science (BICSc)", src: withBase("/accreditations/bicsc.png") },
+  { name: "CPD Certified", src: withBase("/accreditations/cpd.svg") },
+  { name: "Alison Certified", src: withBase("/accreditations/alison.webp") },
 ];
 
 export type ClientBrand = {

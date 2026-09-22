@@ -7,6 +7,7 @@ import ServiceBookingCard from "@/components/ServiceBookingCard";
 import Reveal from "@/components/Reveal";
 import SectorsGrid from "@/components/SectorsGrid";
 import Testimonials from "@/components/Testimonials";
+import Accreditations from "@/components/Accreditations";
 import QuoteCTA from "@/components/QuoteCTA";
 import CTABanner from "@/components/CTABanner";
 import { services, accreditationPoints, howItWorks, company } from "@/lib/content";
@@ -92,6 +93,21 @@ export default function HomePage() {
             </div>
           </Reveal>
         </div>
+      </section>
+
+      {/* Certifications & accreditations */}
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
+        <SectionHeading
+          eyebrow="Certifications"
+          title="Trained, certified &amp; accredited"
+          description="Our training and standards are backed by recognised cleaning-industry and professional bodies."
+          align="center"
+        />
+        <Reveal delay={0.2}>
+          <div className="mt-12">
+            <Accreditations />
+          </div>
+        </Reveal>
       </section>
 
       {/* Services */}
