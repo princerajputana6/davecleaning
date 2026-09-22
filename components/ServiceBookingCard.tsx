@@ -4,12 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { serviceIcons, CheckIcon, ArrowIcon } from "./Icons";
-import {
-  findProduct,
-  serviceHours,
-  PROPERTY_SIZES,
-  PROPERTY_SIZE_QUOTE,
-} from "@/lib/products";
 
 type Service = {
   slug: string;
@@ -31,17 +25,7 @@ export default function ServiceBookingCard({
 }) {
   const Icon = serviceIcons[service.icon];
 
-  const product = findProduct(service.slug);
-
   const [open, setOpen] = useState(false);
-
-  // Estimated-hours guide by property size (only for the cleaning services
-  // that have an hours matrix). Purely informational — booking is not yet live.
-  const hoursGuide = product?.variants?.length
-    ? [...PROPERTY_SIZES, PROPERTY_SIZE_QUOTE]
-        .map((s) => ({ label: s.label, hrs: serviceHours(service.slug, s.id) }))
-        .filter((r) => r.hrs)
-    : [];
 
   return (
     <motion.article
@@ -115,27 +99,6 @@ export default function ServiceBookingCard({
                   meantime, get in touch and our team will arrange everything
                   for you.
                 </p>
-
-                {hoursGuide.length > 0 && (
-                  <div className="mt-4 border-t border-bolt/15 pt-3">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                      Estimated cleaning time
-                    </p>
-                    <ul className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1">
-                      {hoursGuide.map((r) => (
-                        <li
-                          key={r.label}
-                          className="flex justify-between gap-2 text-xs text-slate-600"
-                        >
-                          <span>{r.label}</span>
-                          <span className="font-medium text-slate-500">
-                            {r.hrs}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
 
                 <Link
                   href="/contact"
