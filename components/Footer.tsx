@@ -31,7 +31,7 @@ export default function Footer() {
                 {company.sisterSite.name}
               </a>
               <span className="pointer-events-none absolute -right-3 -top-2.5 rounded-full bg-bolt px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
-                Sister Company
+                New Launch
               </span>
             </div>
 
