@@ -35,8 +35,7 @@ export default function CleaningCursor() {
     // Hide the native cursor (keep a text caret inside form fields for usability).
     const style = document.createElement("style");
     style.textContent = `
-      * { cursor: none !important; }
-      input, textarea, select, [contenteditable="true"] { cursor: auto !important; }
+      *, *::before, *::after, html, body { cursor: none !important; }
     `;
     document.head.appendChild(style);
 
@@ -80,7 +79,7 @@ export default function CleaningCursor() {
 
       // Wet shine streak points along the path
       streak.push({ x: px, y: py, life: 1 });
-      if (streak.length > 26) streak.shift();
+      if (streak.length > 46) streak.shift();
 
       if (speed > 1.2) {
         // Foam bubbles sprayed off the bristles, biased opposite the motion
@@ -208,22 +207,51 @@ export default function CleaningCursor() {
       angle += (target - angle) * 0.15;
 
       if (visible) {
-        // Wet shine streak
-        if (streak.length > 1) {
+        // Traveling wave + wet shine along the sweep path
+        if (streak.length > 2) {
+          const now = performance.now() / 1000;
+          // soft wet-shine underlay
           for (let i = 1; i < streak.length; i++) {
             const a = streak[i];
             const b = streak[i - 1];
             const t = i / streak.length;
-            ctx.strokeStyle = `rgba(150,215,255,${0.16 * t})`;
-            ctx.lineWidth = 10 * t;
+            ctx.strokeStyle = `rgba(200,235,255,${0.1 * t})`;
+            ctx.lineWidth = 12 * t;
             ctx.lineCap = "round";
             ctx.beginPath();
             ctx.moveTo(b.x, b.y);
             ctx.lineTo(a.x, a.y);
             ctx.stroke();
           }
+          // two overlaid sine waves rolling along the path
+          const waves = [
+            { amp: 8, freq: 0.5, speed: 6, col: "150,215,255", alpha: 0.5, width: 3 },
+            { amp: 5, freq: 0.85, speed: -9, col: "20,161,230", alpha: 0.55, width: 2 },
+          ];
+          for (const wv of waves) {
+            ctx.beginPath();
+            for (let i = 0; i < streak.length; i++) {
+              const p = streak[i];
+              const prev = streak[Math.max(0, i - 1)];
+              const nx = p.x - prev.x;
+              const ny = p.y - prev.y;
+              const len = Math.hypot(nx, ny) || 1;
+              const perpx = -ny / len;
+              const perpy = nx / len;
+              const off = Math.sin(i * wv.freq + now * wv.speed) * wv.amp * p.life;
+              const x = p.x + perpx * off;
+              const y = p.y + perpy * off;
+              if (i === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = `rgba(${wv.col},${wv.alpha})`;
+            ctx.lineWidth = wv.width;
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            ctx.stroke();
+          }
         }
-        for (const s of streak) s.life -= 0.03;
+        for (const s of streak) s.life -= 0.02;
         while (streak.length && streak[0].life <= 0) streak.shift();
 
         // Ripple waves
