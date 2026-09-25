@@ -6,9 +6,8 @@ import { useEffect } from "react";
  * Cleaning-themed custom cursor.
  *
  * The pointer becomes a little broom, and as you move it "sweeps" the surface:
- * a wet shine streak follows the path, soap-foam bubbles spray off the
- * bristles, and expanding water ripples (the wave) fan out — as if you were
- * cleaning the screen.
+ * soap-foam bubbles spray off the bristles and expanding water ripples (the
+ * wave) fan out — as if you were cleaning the screen.
  *
  * Canvas-based (no dependency), and disabled on touch devices and for visitors
  * who prefer reduced motion, where the normal cursor is left untouched.
@@ -62,10 +61,8 @@ export default function CleaningCursor() {
 
     type Bubble = { x: number; y: number; r: number; vx: number; vy: number; life: number; max: number };
     type Ripple = { x: number; y: number; r: number; life: number; max: number; w: number };
-    type Streak = { x: number; y: number; life: number };
     const bubbles: Bubble[] = [];
     const ripples: Ripple[] = [];
-    const streak: Streak[] = [];
 
     let sinceRipple = 0;
 
@@ -76,10 +73,6 @@ export default function CleaningCursor() {
       const dx = px - lastX;
       const dy = py - lastY;
       const speed = Math.hypot(dx, dy);
-
-      // Wet shine streak points along the path
-      streak.push({ x: px, y: py, life: 1 });
-      if (streak.length > 46) streak.shift();
 
       if (speed > 1.2) {
         // Foam bubbles sprayed off the bristles, biased opposite the motion
@@ -100,12 +93,12 @@ export default function CleaningCursor() {
         }
         if (bubbles.length > 160) bubbles.splice(0, bubbles.length - 160);
 
-        // Expanding ripple waves as we sweep
+        // Expanding ripple waves as we sweep (the "wave" — no connecting line)
         sinceRipple += speed;
-        if (sinceRipple > 26) {
+        if (sinceRipple > 18) {
           sinceRipple = 0;
-          ripples.push({ x: px, y: py, r: 6, life: 1, max: 34, w: 2.2 });
-          if (ripples.length > 24) ripples.shift();
+          ripples.push({ x: px, y: py, r: 5, life: 1, max: 44, w: 3 });
+          if (ripples.length > 28) ripples.shift();
         }
       }
 
@@ -207,53 +200,6 @@ export default function CleaningCursor() {
       angle += (target - angle) * 0.15;
 
       if (visible) {
-        // Traveling wave + wet shine along the sweep path
-        if (streak.length > 2) {
-          const now = performance.now() / 1000;
-          // soft wet-shine underlay
-          for (let i = 1; i < streak.length; i++) {
-            const a = streak[i];
-            const b = streak[i - 1];
-            const t = i / streak.length;
-            ctx.strokeStyle = `rgba(200,235,255,${0.1 * t})`;
-            ctx.lineWidth = 12 * t;
-            ctx.lineCap = "round";
-            ctx.beginPath();
-            ctx.moveTo(b.x, b.y);
-            ctx.lineTo(a.x, a.y);
-            ctx.stroke();
-          }
-          // two overlaid sine waves rolling along the path
-          const waves = [
-            { amp: 8, freq: 0.5, speed: 6, col: "150,215,255", alpha: 0.5, width: 3 },
-            { amp: 5, freq: 0.85, speed: -9, col: "20,161,230", alpha: 0.55, width: 2 },
-          ];
-          for (const wv of waves) {
-            ctx.beginPath();
-            for (let i = 0; i < streak.length; i++) {
-              const p = streak[i];
-              const prev = streak[Math.max(0, i - 1)];
-              const nx = p.x - prev.x;
-              const ny = p.y - prev.y;
-              const len = Math.hypot(nx, ny) || 1;
-              const perpx = -ny / len;
-              const perpy = nx / len;
-              const off = Math.sin(i * wv.freq + now * wv.speed) * wv.amp * p.life;
-              const x = p.x + perpx * off;
-              const y = p.y + perpy * off;
-              if (i === 0) ctx.moveTo(x, y);
-              else ctx.lineTo(x, y);
-            }
-            ctx.strokeStyle = `rgba(${wv.col},${wv.alpha})`;
-            ctx.lineWidth = wv.width;
-            ctx.lineCap = "round";
-            ctx.lineJoin = "round";
-            ctx.stroke();
-          }
-        }
-        for (const s of streak) s.life -= 0.02;
-        while (streak.length && streak[0].life <= 0) streak.shift();
-
         // Ripple waves
         for (let i = ripples.length - 1; i >= 0; i--) {
           const rp = ripples[i];
