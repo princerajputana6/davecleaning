@@ -27,7 +27,7 @@ export default function QuoteCTA() {
           whileHover={{ scale: 1.03 }}
           className="relative mt-4 block font-display text-5xl font-bold tracking-tight text-slate-900 sm:text-7xl lg:text-8xl"
         >
-          0203 524 4041
+          07445 579908
         </motion.a>
         <motion.p
           initial={{ opacity: 0 }}

@@ -18,7 +18,7 @@ const company = {
     process.env.COMPANY_NAME ||
     "Dave Electrical Services Limited",
   email: process.env.COMPANY_EMAIL || "info@daveelectrical.co.uk",
-  phone: process.env.COMPANY_PHONE || "02035244041",
+  phone: process.env.COMPANY_PHONE || "07445579908",
   address:
     process.env.COMPANY_ADDRESS || "7 Nursery Gardens, Hounslow, London TW4 5EY",
   // Website logo, embedded as a data URI. An env override still wins if set.

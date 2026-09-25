@@ -3,13 +3,13 @@ import { withBase } from "@/lib/basePath";
 export const company = {
   name: "Dave Cleaning Services",
   legalName: "Dave Cleaning Services",
-  phonePrimary: "02035244041",
+  phonePrimary: "07445579908",
   email: "info@davecleaning.co.uk",
   address: "22 Camborne Way, Hounslow, London, TW5 0PW",
   // Re-used display keys (kept so the shared components render):
   napit: "Fully Insured & Vetted",
   certificate: "Satisfaction Guaranteed",
-  whatsapp: "442035244041",
+  whatsapp: "447445579908",
   // Pre-filled message that opens in WhatsApp when a customer taps the chat
   // button (wa.me ?text=). Phrased from the customer's side.
   whatsappMessage:

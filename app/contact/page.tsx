@@ -14,7 +14,7 @@ import {
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get a free, no-obligation cleaning quote from Dave Cleaning Services. Call 0203 524 4041 or send us your property details and requirements.",
+    "Get a free, no-obligation cleaning quote from Dave Cleaning Services. Call 07445 579908 or send us your property details and requirements.",
 };
 
 const details = [
