@@ -55,7 +55,7 @@ export default function CleaningCursor() {
     let by = py;
     let lastX = px;
     let lastY = py;
-    let angle = -0.5; // broom lean
+    let angle = -0.35; // broom lean (hangs below the pointer)
     let visible = false;
     let downScale = 1;
 
@@ -65,6 +65,7 @@ export default function CleaningCursor() {
     const ripples: Ripple[] = [];
 
     let sinceRipple = 0;
+    const BRISTLE_OFF = 44; // distance from the pointer (handle top) to the bristles
 
     const onMove = (e: MouseEvent) => {
       px = e.clientX;
@@ -74,6 +75,11 @@ export default function CleaningCursor() {
       const dy = py - lastY;
       const speed = Math.hypot(dx, dy);
 
+      // The pointer sits at the TOP of the broom; foam/ripples come off the
+      // bristles, which hang ~44px below (rotated by the broom's lean).
+      const bxo = px - Math.sin(angle) * BRISTLE_OFF;
+      const byo = py + Math.cos(angle) * BRISTLE_OFF;
+
       if (speed > 1.2) {
         // Foam bubbles sprayed off the bristles, biased opposite the motion
         const n = Math.min(4, 1 + Math.floor(speed / 6));
@@ -82,8 +88,8 @@ export default function CleaningCursor() {
           const back = Math.atan2(-dy, -dx) + spread;
           const sp = 0.5 + Math.random() * 1.8;
           bubbles.push({
-            x: px + (Math.random() - 0.5) * 10,
-            y: py + (Math.random() - 0.5) * 10,
+            x: bxo + (Math.random() - 0.5) * 10,
+            y: byo + (Math.random() - 0.5) * 10,
             r: 2 + Math.random() * 5,
             vx: Math.cos(back) * sp,
             vy: Math.sin(back) * sp - 0.5,
@@ -97,7 +103,7 @@ export default function CleaningCursor() {
         sinceRipple += speed;
         if (sinceRipple > 18) {
           sinceRipple = 0;
-          ripples.push({ x: px, y: py, r: 5, life: 1, max: 44, w: 3 });
+          ripples.push({ x: bxo, y: byo, r: 5, life: 1, max: 44, w: 3 });
           if (ripples.length > 28) ripples.shift();
         }
       }
@@ -108,13 +114,15 @@ export default function CleaningCursor() {
 
     const onDown = () => {
       downScale = 0.82;
-      // a burst of foam on click, like a scrub
+      // a burst of foam on click, like a scrub — at the bristles
+      const bxo = px - Math.sin(angle) * BRISTLE_OFF;
+      const byo = py + Math.cos(angle) * BRISTLE_OFF;
       for (let i = 0; i < 14; i++) {
         const a = Math.random() * Math.PI * 2;
         const sp = 1 + Math.random() * 2.4;
         bubbles.push({
-          x: px,
-          y: py,
+          x: bxo,
+          y: byo,
           r: 2 + Math.random() * 5,
           vx: Math.cos(a) * sp,
           vy: Math.sin(a) * sp - 0.6,
@@ -122,7 +130,7 @@ export default function CleaningCursor() {
           max: 40 + Math.random() * 30,
         });
       }
-      ripples.push({ x: px, y: py, r: 4, life: 1, max: 44, w: 3 });
+      ripples.push({ x: bxo, y: byo, r: 4, life: 1, max: 44, w: 3 });
     };
     const onUp = () => {
       downScale = 1;
@@ -136,12 +144,15 @@ export default function CleaningCursor() {
     window.addEventListener("mouseup", onUp, { passive: true });
     document.addEventListener("mouseleave", onLeave);
 
-    // Draw a little broom, bristle tip at (0,0), rotated by `rot`.
+    // Draw a little broom. The pointer (x,y) is at the TOP of the handle, so
+    // the broom hangs below it and the clickable point is the top.
     const drawBroom = (x: number, y: number, rot: number, scale: number) => {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(rot);
       ctx.scale(scale, scale);
+      // Shift so the handle top (local y = -46) sits at the pointer.
+      ctx.translate(0, 46);
 
       // Bristles (fan from the tip upward)
       ctx.strokeStyle = "#eab54d";
@@ -196,7 +207,7 @@ export default function CleaningCursor() {
       const moveDY = py - by;
       const moving = Math.hypot(moveDX, moveDY);
       // Broom leans in the direction of travel
-      const target = -0.5 + Math.max(-0.6, Math.min(0.6, moveDX * 0.03));
+      const target = -0.35 + Math.max(-0.6, Math.min(0.6, moveDX * 0.03));
       angle += (target - angle) * 0.15;
 
       if (visible) {
